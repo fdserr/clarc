@@ -27,7 +27,7 @@ jobs:
           - v1-dependencies-
 
       # devcards build
-      - run: lein cljsbuild once devcards
+      - run: lein cljsbuild once cards
 
       - save_cache:
           paths:
