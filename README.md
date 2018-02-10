@@ -1,7 +1,7 @@
 # Clarc
 
 [![CircleCI](https://circleci.com/gh/fdserr/clarc.svg?style=svg&circle-token=2ea7757a3e32217c21186f8b4469ebe39163245b)](https://circleci.com/gh/fdserr/clarc)
-Devcards latest build is at: [https://http://clarc.s3-website-ap-southeast-1.amazonaws.com/cards.html](http://clarc.s3-website-ap-southeast-1.amazonaws.com/cards.html)
+Devcards latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/cards.html](http://clarc.s3-website-ap-southeast-1.amazonaws.com/cards.html)
 
 ## Hacking
 
