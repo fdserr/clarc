@@ -35,14 +35,14 @@
                                    ;; started and complied your application.
                                    ;; Comment this out once it no longer serves you.
                                    ;:open-urls ["http://localhost:3449/cards.html"]}
-                        :compiler { :main       "clarc.core"
+                        :compiler { :main       "clarc.index"
                                     :asset-path "js/compiled/devcards_out"
                                     :output-to  "resources/public/js/compiled/clarc_devcards.js"
                                     :output-dir "resources/public/js/compiled/devcards_out"
                                     :source-map-timestamp true}}
                        {:id "cards"
                         :source-paths ["src"]
-                        :compiler {:main "clarc.core"
+                        :compiler {:main "clarc.index"
                                    :devcards true ; <- note this
                                    :asset-path "js/compiled/cards_out"
                                    :output-to  "resources/public/js/compiled/clarc_cards.js"
