@@ -10,14 +10,8 @@
                  [org.clojure/clojurescript "1.9.946"]
                  [devcards "0.2.3"]
                  [sablono "0.7.4"]
-
-                 ;; need to specify this for sablono
-                 ;; when not using devcards
                  [cljsjs/react "15.3.1-0"]
-                 [cljsjs/react-dom "15.3.1-0"]
-                 #_[org.omcljs/om "1.0.0-alpha46"]
-                 #_[reagent "0.6.0"]]
-
+                 [cljsjs/react-dom "15.3.1-0"]]
 
   :plugins [[lein-figwheel "0.5.14"]
             [lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]]
@@ -29,12 +23,7 @@
 
   :cljsbuild {:builds [{:id "devcards"
                         :source-paths ["src"]
-                        :figwheel { :devcards true}  ;; <- note this
-                                   ;; :open-urls will pop open your application
-                                   ;; in the default browser once Figwheel has
-                                   ;; started and complied your application.
-                                   ;; Comment this out once it no longer serves you.
-                                   ;:open-urls ["http://localhost:3449/cards.html"]}
+                        :figwheel {:devcards true}
                         :compiler { :main       "clarc.index"
                                     :asset-path "js/compiled/devcards_out"
                                     :output-to  "resources/public/js/compiled/clarc_devcards.js"
@@ -42,15 +31,15 @@
                                     :source-map-timestamp true}}
                        {:id "cards"
                         :source-paths ["src"]
-                        :compiler {:main "clarc.index"
-                                   :devcards true ; <- note this
+                        :compiler {:main       "clarc.index"
+                                   :devcards   true
                                    :asset-path "js/compiled/cards_out"
                                    :output-to  "resources/public/js/compiled/clarc_cards.js"
                                    :output-dir "resources/public/js/compiled/cards_out"
                                    :optimizations :advanced}}
                        {:id "dev"
                         :source-paths ["src"]
-                        :figwheel true
+                        :figwheel {:on-jsload "clarc.core/loaded"}
                         :compiler {:main       "clarc.core"
                                    :asset-path "js/compiled/dev_out"
                                    :output-to  "resources/public/js/compiled/clarc.js"
@@ -64,12 +53,11 @@
                                    :output-dir "resources/public/js/compiled/out"
                                    :optimizations :advanced}}]}
 
-  :figwheel { :css-dirs ["resources/public/css"]}
+  :figwheel {:css-dirs ["resources/public/css"]}
 
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.2"]
                                   [figwheel-sidecar "0.5.14"]
                                   [com.cemerick/piggieback "0.2.1"]]
-                   ;; need to add dev source path here to get user.clj loaded
                    :source-paths ["src" "dev"]
                    ;; for CIDER
                    ;; :plugins [[cider/cider-nrepl "0.12.0"]]
