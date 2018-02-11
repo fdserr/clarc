@@ -29,7 +29,7 @@ jobs:
       # cards build
       - run: lein cljsbuild once cards
       # prod build
-      - run: lein cljsbuild once build
+      - run: lein cljsbuild once prod
 
       - save_cache:
           paths:
