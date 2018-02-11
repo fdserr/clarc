@@ -26,8 +26,10 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      # devcards build
+      # cards build
       - run: lein cljsbuild once cards
+      # prod build
+      - run: lein cljsbuild once build
 
       - save_cache:
           paths:

@@ -46,21 +46,23 @@
                                    :devcards true ; <- note this
                                    :asset-path "js/compiled/cards_out"
                                    :output-to  "resources/public/js/compiled/clarc_cards.js"
+                                   :output-dir "resources/public/js/compiled/cards_out"
+                                   :optimizations :advanced}}
+                       {:id "dev"
+                        :source-paths ["src"]
+                        :figwheel true
+                        :compiler {:main       "clarc.core"
+                                   :asset-path "js/compiled/dev_out"
+                                   :output-to  "resources/public/js/compiled/clarc.js"
+                                   :output-dir "resources/public/js/compiled/dev_out"
+                                   :source-map-timestamp true}}
+                       {:id "prod"
+                        :source-paths ["src"]
+                        :compiler {:main       "clarc.core"
+                                   :asset-path "js/compiled/out"
+                                   :output-to  "resources/public/js/compiled/clarc.js"
+                                   :output-dir "resources/public/js/compiled/out"
                                    :optimizations :advanced}}]}
-                       ; {:id "dev"
-                       ;  :source-paths ["src"]
-                       ;  :figwheel true
-                       ;  :compiler {:main       "clarc.core"
-                       ;             :asset-path "js/compiled/out"
-                       ;             :output-to  "resources/public/js/compiled/clarc.js"
-                       ;             :output-dir "resources/public/js/compiled/out"
-                       ;             :source-map-timestamp true}}
-                       ; {:id "prod"
-                       ;  :source-paths ["src"]
-                       ;  :compiler {:main       "clarc.core"
-                       ;             :asset-path "js/compiled/out"
-                       ;             :output-to  "resources/public/js/compiled/clarc.js"
-                       ;             :optimizations :advanced}}]}
 
   :figwheel { :css-dirs ["resources/public/css"]}
 
