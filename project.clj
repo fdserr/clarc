@@ -39,7 +39,7 @@
                                    :optimizations :advanced}}
                        {:id "dev"
                         :source-paths ["src"]
-                        :figwheel {:on-jsload "clarc.core/loaded"}
+                        :figwheel {:on-jsload "clarc.core/js-loaded"}
                         :compiler {:main       "clarc.core"
                                    :asset-path "js/compiled/dev_out"
                                    :output-to  "resources/public/js/compiled/clarc.js"

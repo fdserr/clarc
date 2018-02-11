@@ -1,13 +1,20 @@
 (ns clarc.index
   (:require
-   [clarc.core :as clarc]
+   [clarc.app :as app]
    [devcards.core :as dc :include-macros true :refer [defcard deftest]]
    [sablono.core :as sab :include-macros true :refer [html]])
   (:require-macros))
 
 (dc/start-devcard-ui!)
 
-(defcard
+(defcard example
+  "See `src/index.cljs`"
+  (fn [a _]
+    (app/ui-app a))
+  {:app-title "Incrementer"
+   :value 0})
+
+(defcard q&a
   "
 ## How to run the app without devcards?
 
@@ -20,9 +27,3 @@ When in dev mode:
 - Code changes are reflected on save.
 - Application state is preserved on code reload.
   ")
-
-(defcard app
-  (fn [a _]
-    (clarc/ui-app a))
-  {:app-title "Incrementer"
-   :value 0})
