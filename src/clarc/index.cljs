@@ -6,3 +6,6 @@
   (:require-macros))
 
 (dc/start-devcard-ui!)
+
+(defcard
+  "[Go to App](/index.html)")

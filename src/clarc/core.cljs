@@ -6,10 +6,6 @@
 
 (enable-console-print!)
 
-(defcard first-card
-  (sab/html [:div
-             [:h1 "This is your first devcard!"]]))
-
 (defn main []
   ;; conditionally start the app based on whether the #main-app-area
   ;; node is on the page
