@@ -1,6 +1,5 @@
 (ns clarc.core
   (:require
-   [devcards.core :as dc :include-macros true :refer [defcard deftest]]
    [sablono.core :as sab :include-macros true])
   (:require-macros))
 
@@ -15,4 +14,4 @@
 (main)
 
 ;; remember to run lein figwheel and then browse to
-;; http://localhost:3449/cards.html
+;; http://localhost:3449/devcards.html
