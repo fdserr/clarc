@@ -5,13 +5,12 @@
 
 (enable-console-print!)
 
-(defn render-app [a]
+(defn render-app [store]
   (if-let [node (.getElementById js/document "main-app-area")]
-    (.render js/ReactDOM (app/ui-app a) node)))
+    (.render js/ReactDOM (app/ui-app store) node)))
 
-(defonce app-store (-> (atom {})
-                       (add-watch :render
-                                  (fn [k a o n] (render-app a)))))
+(defonce app-store (add-watch (atom {}) :render
+                              (fn [_ a _ _] (render-app a))))
 
 (defonce _ (app/dispatch! app-store app/ac-init))
 

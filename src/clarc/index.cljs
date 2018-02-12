@@ -16,7 +16,7 @@
 
 (defcard q&a
   "
-## How to run the app without devcards?
+## How to hack the app without devcards?
 
 Evaluate `(start-autobuild devcards dev)` in the REPL.
 

@@ -17,6 +17,11 @@ App latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/in
 - [Git](https://desktop.github.com)
 - [PhantomJS](http://phantomjs.org/download.html)
 
+### Nice to have
+
+- [AWS CLI](https://aws.amazon.com/cli/) 
+- [CircleCI CLI](https://circleci.com/docs/2.0/local-jobs/)
+
 ### Getting started
 
 From the main project dir, run in a terminal:
