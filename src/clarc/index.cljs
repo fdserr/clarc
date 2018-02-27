@@ -5,8 +5,6 @@
    [sablono.core :as sab :include-macros true :refer [html]])
   (:require-macros))
 
-(dc/start-devcard-ui!)
-
 (defcard example
   "See `src/index.cljs`"
   (fn [a _]

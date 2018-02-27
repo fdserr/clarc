@@ -25,9 +25,9 @@
                         ;; Development using figwheel + devcards
                         :source-paths ["src"]
                         :figwheel {:devcards true}
-                        :compiler { :main       "clarc.index"
+                        :compiler { :main       "clarc.dev"
                                     :asset-path "js/compiled/devcards_out"
-                                    :output-to  "resources/public/js/compiled/clarc_devcards.js"
+                                    :output-to  "resources/public/js/compiled/clarc_cards.js"
                                     :output-dir "resources/public/js/compiled/devcards_out"
                                     :source-map-timestamp true}}
                        {:id "cards"
@@ -42,14 +42,14 @@
                        {:id "dev"
                         ;; Development using figwheel (no cards)
                         :source-paths ["src"]
-                        :figwheel {:on-jsload "clarc.core/js-loaded"}
-                        :compiler {:main       "clarc.core"
-                                   :asset-path "js/compiled/dev_out"
+                        :figwheel {:on-jsload "clarc.dev/js-loaded"}
+                        :compiler {:main       "clarc.dev"
+                                   :asset-path "../js/compiled/dev_out"
                                    :output-to  "resources/public/js/compiled/clarc.js"
                                    :output-dir "resources/public/js/compiled/dev_out"
                                    :source-map-timestamp true}}
                        {:id "prod"
-                        ;; Prod build
+                        ;; Prod build ;;FIXME paths
                         :source-paths ["src"]
                         :compiler {:main       "clarc.core"
                                    :asset-path "js/compiled/out"
