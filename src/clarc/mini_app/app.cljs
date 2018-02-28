@@ -1,4 +1,4 @@
-(ns clarc.app
+(ns clarc.mini-app.app
   (:require
     [sablono.core :include-macros true :refer [html]]))
 
@@ -7,12 +7,12 @@
   (apply swap! store fun args)
   nil)
 
-(defn ac-init
+(defn action-init
   [_]
   {:app-title "My App"
    :value 0})
 
-(defn ac-inc
+(defn action-inc
   [state]
   (update-in state [:value] inc))
 
@@ -23,4 +23,4 @@
      [:div
       [:h1 app-title]
       [:p (str value)]
-      [:button {:on-click #(dispatch! store ac-inc)} "Inc"]])))
+      [:button {:on-click #(dispatch! store action-inc)} "Inc"]])))

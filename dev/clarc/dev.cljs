@@ -1,9 +1,9 @@
 (ns clarc.dev
   (:require
-   [clarc.core :as clarc]
+   [clarc.mini-app.core :as app]
 
    clarc.index
-   clarc.meta.index
+   clarc.mini-app.index
 
    [devcards.core :as dc :include-macros true :refer [defcard deftest]]))
 
@@ -16,4 +16,4 @@
 (defn js-loaded
   "Figwheel render on code reload"
   []
-  (clarc/render-app clarc/app-store))
+  (app/render-app app/app-store))
