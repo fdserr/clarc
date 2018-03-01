@@ -21,6 +21,7 @@
   (let [{:keys [app-title value]} @store]
     (html
      [:div
-      [:h1 app-title]
-      [:p (str value)]
-      [:button {:on-click #(dispatch! store action-inc)} "Inc"]])))
+      [:h2 app-title]
+      [:h1 (str value)]
+      [:button {:on-click #(dispatch! store action-inc)} "Inc"]
+      [:p "   "]])))

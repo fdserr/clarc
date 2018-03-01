@@ -2,28 +2,15 @@
   (:require
    [clarc.mini-app.app :as app]
    [devcards.core :as dc :include-macros true :refer [defcard deftest]]
-   [sablono.core :as sab :include-macros true :refer [html]])
-  (:require-macros))
+   [sablono.core :as sab :include-macros true :refer [html]]))
 
 (defcard app-example
   "See `src/mini_app/*`"
-  (fn [a _]
-    (app/ui-app a))
+  (fn [store]
+    (app/ui-app store))
   {:app-title "Incrementer"
-   :value 0})
+   :value 0}
+  {:inspect-data true
+   :history true})
 
 ;;;
-
-(defcard q&a
-  "
-## How to hack the app without devcards?
-
-Evaluate `(start-autobuild devcards dev)` in the REPL.
-
-[Open /index.html](/index.html), probably in a new tab (SHIFT-CLICK).
-
-When in dev mode:
-
-- Code changes are reflected on save.
-- Application state is preserved on code reload.
-  ")
