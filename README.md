@@ -2,9 +2,9 @@
 
 [![CircleCI](https://circleci.com/gh/fdserr/clarc.svg?style=svg&circle-token=2ea7757a3e32217c21186f8b4469ebe39163245b)](https://circleci.com/gh/fdserr/clarc)
 
-Devcards latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/cards.html](http://clarc.s3-website-ap-southeast-1.amazonaws.com/cards.html)
+Devcards latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/index.html](http://clarc.s3-website-ap-southeast-1.amazonaws.com/index.html)
 
-App latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/index.html](http://clarc.s3-website-ap-southeast-1.amazonaws.com/index.html)
+App latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/app/index.html](http://clarc.s3-website-ap-southeast-1.amazonaws.com/app/index.html)
 
 ## Hacking
 
@@ -14,12 +14,12 @@ App latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/in
 - [Leiningen](https://leiningen.org)
 - [Chrome](https://www.google.com/chrome/) or [Canary](https://www.google.com/chrome/browser/canary.html)
 - [rlwrap](http://brewformulas.org/Rlwrap) if you're on OSX
-- [Git](https://desktop.github.com)
-- [PhantomJS](http://phantomjs.org/download.html)
 
 ### Nice to have
 
-- [AWS CLI](https://aws.amazon.com/cli/) 
+- [Git](https://desktop.github.com)
+- [PhantomJS](http://phantomjs.org/download.html)
+- [AWS CLI](https://aws.amazon.com/cli/)
 - [CircleCI CLI](https://circleci.com/docs/2.0/local-jobs/)
 
 ### Getting started
@@ -27,6 +27,6 @@ App latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/in
 From the main project dir, run in a terminal:
 `lein figwheel` or `rlwrap lein figwheel` on OSX.
 When the dust settles down, browse to
-`http://localhost:3449/devcards.html` and read on.
+`http://localhost:3449/index.html` and read on.
 
 ### Troubleshooting
