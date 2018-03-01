@@ -5,11 +5,12 @@
    [sablono.core :as sab :include-macros true :refer [html]]))
 
 (defcard
-  "## Redux redux")
+  "## Flux")
 
 ;;;
 
 (defn dispatch!
+  "Dispatch action to store"
   [store fun & args]
   (apply swap! store fun args)
   nil)
@@ -26,6 +27,7 @@
 ;;;
 
 (defn action-init ; actions take state and return new state
+  "Initial state"
   [state persons]
   (assoc state :persons persons))
 
@@ -39,6 +41,7 @@
 ;;;
 
 (defn action-add-person
+  "Person added"
   [state person]
   (if-not (or (= person "")
               (nil? person)
@@ -65,14 +68,17 @@
 ;;;
 
 (defn action-change-input
+  "Input changed"
   [state input]
   (assoc state :input input))
 
 (defn ui-person
+  "person component"
   [person]
   (html [:li {:key person} person]))
 
 (defn ui-form
+  "Form component"
   [store]
   (html [:div
          [:input
