@@ -9,10 +9,6 @@
 
 (enable-console-print!)
 
-(let [node (.getElementById js/document "main-app-area")]
-  (when-not node
-    (dc/start-devcard-ui!)))
-
 (defn js-loaded
   "Figwheel render on code reload"
   []
