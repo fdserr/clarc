@@ -20,8 +20,9 @@
   [store]
   (let [{:keys [app-title value]} @store]
     (html
-     [:div
-      [:h2 app-title]
-      [:h1 (str value)]
-      [:button {:on-click #(dispatch! store action-inc)} "Inc"]
+     [:div {:class-name "d-flex flex-column justify-content-center"}
+      [:div
+       [:h2 {:class-name "text-center"} app-title]
+       [:h1 {:class-name "text-center"} (str value)]]
+      [:button {:on-click #(dispatch! store action-inc)} "Increment"]
       [:p "   "]])))

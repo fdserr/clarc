@@ -5,7 +5,7 @@
    [sablono.core :as sab :include-macros true :refer [html]]))
 
 (defcard app-example
-  "See `src/mini_app/*`"
+  "See `src/clarc/mini_app/index.cljs`"
   (fn [store]
     (app/ui-app store))
   {:app-title "Incrementer"

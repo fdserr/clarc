@@ -6,38 +6,33 @@
 (defcard
   "## Devcards basics")
 
-;;;
+;;; basic cards
 
 (defcard
-  minimal-card ; optional name
+  minimal-card   ; optional name
   "Some _text_"  ; optional text (markdown)
-  {:a "map"})  ; value to display
-
-;;;
+  {:a "map"})    ; value to display
 
 (defcard ui-static
   "A simple React component"
-  (html [:h3 "I am React!"]))
-
-;;;
+  (html [:h3 "cljs <3 React!"]))
 
 (defcard ui-state
   "A component that reads its props from a state atom."
   (fn [state] ; state is provided by the card
-    (html [:h3 "I am Number " @state])) ; note deref
+    (html [:h3 "Number " @state " FB OSS project."])) ; note deref
   (atom 1)) ; initial state
-
-;;;
 
 (defcard ui-reactive
   "A component reacting to state change (click text)."
   (fn [state] ; state is provided by the card
     (html [:h3
-           {:on-click #(swap! state inc)}
-           "I am Number " @state])) ; note deref
+           {:style {:user-select "none"}
+            :on-click #(swap! state inc)}
+           "Likes: " @state])) ; note deref
   (atom 1)) ; initial state
 
-;;;
+;;; form example
 
 (declare ui-form) ; forward declaration
 
@@ -46,7 +41,7 @@
   (fn [state _]
     (ui-form state)) ; call the ui component
   {:input "React"}) ; a map as initial state
-  ; card options
+  ; optional card options (uncomment)
   ; {:inspect-data true
   ;  :history true})
 
@@ -67,19 +62,20 @@
           "Submit"]
          [:p "  "]]))
 
-;;;
+;;; multiple steps form
 
-(declare screen)
+(declare ui-screen)
 
 (defcard steps-example
   "Application state preserved on code reload."
   (fn [state]
-    (screen state))
+    (ui-screen state))
   {:screen :step1}
   {:inspect-data true
    :history true})
 
-(defn ui-step ; reusable step component
+(defn ui-step
+  "Reusable form for 3 first steps"
   [state label key next-screen]
   (html [:div
          [:label label]
@@ -93,25 +89,26 @@
           "Next..."]
          [:p "  "]]))
 
-(defmulti screen
+(defmulti ui-screen
+  "Show screen according to current step in state"
   (fn [state] (:screen @state))
   :default :step1)
 
-(defmethod screen :step1
+(defmethod ui-screen :step1
   [state]
   (html
     [:div
      [:h3 "Step 1"]
      (ui-step state "First Name :" :first-name :step2)]))
 
-(defmethod screen :step2
+(defmethod ui-screen :step2
   [state]
   (html
     [:div
      [:h3 "Step 2"]
      (ui-step state "Last Name :" :last-name :step3)]))
 
-(defmethod screen :step3
+(defmethod ui-screen :step3
   [state]
   (html
     [:div
@@ -123,10 +120,11 @@
   (js/alert (str "Sending: " (dissoc @state :screen)))
   (reset! state {:screen :step1}))
 
-(defmethod screen :step4
+(defmethod ui-screen :step4
   [state]
   (let [{:keys [first-name last-name email]} @state]
-    (html [:div "Thank you!"
+    (html [:div
+           [:h2 "Thank you!"]
            [:p (str "First Name: " first-name)]
            [:p (str "Last Name: " last-name)]
            [:p (str "E-mail: " email)]
