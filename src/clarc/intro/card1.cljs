@@ -4,14 +4,14 @@
    [sablono.core :as sab :include-macros true :refer [html]]))
 
 (defcard
-  "## Devcards basics")
+  "## Reactive?")
 
 ;;; basic cards
 
 (defcard
   minimal-card   ; optional name
   "Some _text_"  ; optional text (markdown)
-  {:a "map"})    ; value to display
+  {:a "mapping"})    ; value to display
 
 (defcard ui-static
   "A simple React component"
@@ -40,10 +40,10 @@
   "`ui-form` in action."
   (fn [state _]
     (ui-form state)) ; call the ui component
-  {:input "React"}) ; a map as initial state
+  {:input "React"} ; a map as initial state
   ; optional card options (uncomment)
-  ; {:inspect-data true
-  ;  :history true})
+  {:inspect-data true
+   :history true})
 
 (defn do-something
   [state]
@@ -53,16 +53,20 @@
   [state]
   (html [:div
          {:style
-          {:margin "16 8 16 8"}}
+          {:margin "8px"}}
          [:input
-          {:value (or (:input @state) "")
-           :on-change #(swap! state assoc :input (-> % .-target .-value))}]
+          {:value (or (:value @state) "")
+           :on-change #(swap! state assoc :value (-> % .-target .-value))}]
          [:button
           {:on-click #(do-something state)}
-          "Submit"]
-         [:p "  "]]))
+          "Submit"]]))
+
+
+;         [:p "  "]]))
 
 ;;; multiple steps form
+
+;TODO use 'if' instead of multimeth
 
 (declare ui-screen)
 

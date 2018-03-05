@@ -5,15 +5,9 @@
    [sablono.core :as sab :include-macros true :refer [html]]))
 
 (defcard
-  "## Flux")
+  "## Flux?")
 
 ;;;
-
-(defn dispatch!
-  "Dispatch action to store"
-  [store fun & args]
-  (apply swap! store fun args)
-  nil)
 
 ; (defn dispatch!
 ;   [store fun & args]
@@ -24,9 +18,15 @@
 ;       (throw e)))
 ;   nil)
 
+(defn dispatch!
+  "Dispatch action to store"
+  [store fun & args]
+  (apply swap! store fun args)
+  nil)
+
 ;;;
 
-(defn action-init ; actions take state and return new state
+(defn action-init ; actions take state & args and return new state
   "Initial state"
   [state persons]
   (assoc state :persons persons))

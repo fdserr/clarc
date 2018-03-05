@@ -14,7 +14,7 @@
 
 (defn action-inc
   [state]
-  (update-in state [:value] inc))
+  (update-in state [:value] dec))
 
 (defn ui-app
   [store]

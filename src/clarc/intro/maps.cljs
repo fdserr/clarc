@@ -3,7 +3,9 @@
 ;; evaluate each expression at the REPL
 
 {:k1 1
- :k2 "2"}
+ :k2 "2"
+ :k3 [0 1 2]
+ :k4 {:a 1 :b 2}}
 
 (assoc {:x "XYZ" :y true} :k 2)
 

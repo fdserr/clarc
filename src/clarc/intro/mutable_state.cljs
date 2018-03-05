@@ -6,11 +6,10 @@
 
 a   ; ?
 
-(deref a)   ; or just @a. open the box to get the value
+(deref a)   ; or just @a  -> open the box to get the value
 
-(swap! a inc)
-; swap the content of the box with the result of
-; applying inc to what’s inside
+(swap! a inc)   ; swap the content of the box with the result of
+                ; applying inc to what’s inside
 
 @a  ; ?
 

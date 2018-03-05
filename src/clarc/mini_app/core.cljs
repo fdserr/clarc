@@ -13,8 +13,12 @@
                               :render
                               (fn [_ a _ _] (render-app a))))
 
-;; initialise only once
+;; initialise once
 (defonce _ (app/dispatch! app-store app/action-init))
+
+
+
+
 
 ;;;
 
@@ -25,7 +29,7 @@
  (add-watch app-store :watch
             #(println "WATCH :value "
                       "old=" (:value %2)
-                      " new=" (:value %3)))
+                      " new=" (:value %3))) ;check old value
 
  (swap! app-store assoc :value 10000)
 
