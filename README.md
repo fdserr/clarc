@@ -1,5 +1,8 @@
 # Clarc
 
+Code repo for my presentation:
+### ClojureScript: Back To Front.
+
 [![CircleCI](https://circleci.com/gh/fdserr/clarc.svg?style=svg&circle-token=2ea7757a3e32217c21186f8b4469ebe39163245b)](https://circleci.com/gh/fdserr/clarc)
 
 Devcards latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/index.html](http://clarc.s3-website-ap-southeast-1.amazonaws.com/index.html)
@@ -27,6 +30,8 @@ App latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/ap
 From the main project dir, run in a terminal:
 `lein figwheel` or `rlwrap lein figwheel` on OSX.
 When the dust settles down, browse to
-`http://localhost:3449/index.html` and read on.
+`http://localhost:3449/index.html`.
 
-### Troubleshooting
+### Contact
+
+@fdserr on Twitter, GitHub, and Medium.

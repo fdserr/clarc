@@ -5,11 +5,11 @@
 
 (defcard q&a
   "
-## How to hack the app without devcards?
+## How to hack the app without devcards? (dev mode)
 
 Evaluate `(start-autobuild devcards dev)` in the REPL.
 
-[Open /index.html](/index.html), probably in a new tab (SHIFT-CLICK).
+[Open /app/index.html](/app/index.html), probably in a new tab (SHIFT-CLICK).
 
 When in dev mode:
 
