@@ -1,15 +1,16 @@
 # Clarc
 
-Code repo for my presentation:
-### ClojureScript: Back To Front.
-
-[![CircleCI](https://circleci.com/gh/fdserr/clarc.svg?style=svg&circle-token=2ea7757a3e32217c21186f8b4469ebe39163245b)](https://circleci.com/gh/fdserr/clarc)
+Code repo for my
+[presentation](https://github.com/fdserr/clarc/blob/master/resources/public/deck.pdf):
+## ClojureScript: Back To Front.
 
 Devcards latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/index.html](http://clarc.s3-website-ap-southeast-1.amazonaws.com/index.html)
 
 App latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/app/index.html](http://clarc.s3-website-ap-southeast-1.amazonaws.com/app/index.html)
 
 ## Hacking
+
+[![CircleCI](https://circleci.com/gh/fdserr/clarc.svg?style=svg&circle-token=2ea7757a3e32217c21186f8b4469ebe39163245b)](https://circleci.com/gh/fdserr/clarc)
 
 ### Pre-requisites
 
