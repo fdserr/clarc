@@ -4,6 +4,7 @@
    clarc.intro.card2
    clarc.intro.qa
    clarc.mini-app.index
+   clarc.local-db.index
    [devcards.core :as dc :include-macros true :refer [defcard deftest]]
    [sablono.core :as sab :include-macros true :refer [html]]))
 
@@ -35,4 +36,11 @@ Open these files in your editor and experiment at the REPL.
 To run the app outside devcards,
 evaluate `(start-autobuild devcards dev)` in the REPL, and browse to
 [/app/index.html](/app/index.html).
+  ")
+
+(defcard
+  "
+## Local DB
+
+- [Setup](/#!/clarc.local_db.index): plug a DataScript database into the local store.
   ")

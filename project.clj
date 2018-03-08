@@ -9,6 +9,7 @@
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.9.946"]
                  [devcards "0.2.3"]
+                 [datascript "0.16.3"]
                  [sablono "0.7.4"]
                  [cljsjs/react "15.3.1-0"]
                  [cljsjs/react-dom "15.3.1-0"]]
