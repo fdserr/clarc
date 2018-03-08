@@ -44,3 +44,10 @@ evaluate `(start-autobuild devcards dev)` in the REPL, and browse to
 
 - [Setup](/#!/clarc.local_db.index): plug a DataScript database into the local store.
   ")
+
+(defcard
+  "
+## Socket
+
+- [Setup](/#!/clarc.socket.index): plug a socket into the local store to communicate with the server.
+  ")
