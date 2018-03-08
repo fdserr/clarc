@@ -31,7 +31,7 @@ App latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/ap
 From the main project dir, run in a terminal:
 `lein figwheel` or `rlwrap lein figwheel` on OSX.
 When the dust settles down, browse to
-`http://localhost:3449/index.html`.
+`http://localhost:3450/index.html`.
 
 ### Contact
 

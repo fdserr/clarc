@@ -57,7 +57,8 @@
                                    :output-dir "resources/public/js/compiled/out"
                                    :optimizations :advanced}}]}
 
-  :figwheel {:css-dirs ["resources/public/css"]}
+  :figwheel {:css-dirs ["resources/public/css"]
+             :server-port 3450}
 
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.2"]
                                   [figwheel-sidecar "0.5.14"]
