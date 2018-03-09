@@ -5,6 +5,7 @@
    clarc.intro.qa
    clarc.mini-app.index
    clarc.local-db.index
+   clarc.socket.index
    [devcards.core :as dc :include-macros true :refer [defcard deftest]]
    [sablono.core :as sab :include-macros true :refer [html]]))
 
