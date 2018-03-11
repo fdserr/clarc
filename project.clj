@@ -1,8 +1,8 @@
-(defproject clarc "0.1.1"
-  :description "FIXME: write this!"
+(defproject clarc "0.1.1-SNAPSHOT"
+;  :description "FIXME: write this!"
   :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :license {:name "Creative Commons CC0"
+            :url "https://creativecommons.org/publicdomain/zero/1.0/"}
 
   :min-lein-version "2.7.1"
 

@@ -11,6 +11,7 @@ App latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/ap
 
 ### 0.1.1
 
+- CHANGED: figwheel server port is now `3450`.
 - ADDED: local datalog DB (DataScript), see `src/clarc/local_db/*`
 - WIP: simple server with websocket communication.
 
@@ -18,6 +19,10 @@ App latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/ap
 
 - Example app: using local db.
 - Example app: interacting with the server.
+- Datomic integration.
+- Example app: full stack application.
+- Onyx integration.
+- Example app: distributed application.
 
 ## Hacking
 
@@ -51,11 +56,13 @@ GitHub issues and PRs are welcome. The authors cannot commit to address them wit
 ### License
 
 This software relies on the works of many others (thank you!).
-Their respective licenses are included with source code in the linked packages.
+Their respective licenses are included with source code in the linked packages (see the dependencies section of `project.clj`).
 
 The rest is Public Domain.
 
 [![CC0](http://i.creativecommons.org/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)
+
+To the extent possible under law, François De Serres has waived all copyright and related or neighboring rights to clarc. This work is published from: Singapore.
 
 ### Contact
 
