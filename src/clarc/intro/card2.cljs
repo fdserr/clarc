@@ -17,8 +17,8 @@ Flux is an architecture pattern.
 It defines three components: `UI`, `State`, `Dispatch`,
 and a model for their interaction: `State -> UI -> Dispatch -> State -> UI -> ...`
 
-- `UI` is a pure function of `State` (never change `State` directly in the `UI`).
-- `UI` always requests changes to `State` via `Dispatch`.
+- `UI` is a pure function of `State`.
+`UI` always requests changes to `State` via `Dispatch`.
 - `Dispatch` changes `State`, and may trigger `side effects` (call server, launch missile, ...)
 - `State` holds all of the mutable values of the system.
 - The legend doesn't say how `UI` is rendered on `State` change, but a common
@@ -49,7 +49,6 @@ Other models will be studied later, but we can go a long way with keeping
 things simple. UI `events` (clicks, input changes, etc.) are associated to an
 anonymous function, which will always call `dispatch!`. __All changes happen
 via dispatching actions to the store, do not read or manipulate the DOM directly__.
-You've been warned.
   ")
 
 ;;;

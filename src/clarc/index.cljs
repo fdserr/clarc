@@ -51,3 +51,17 @@ Open these files in your editor and experiment at the REPL.
 - [WebSocket server comm how-to](/#!/clarc.socket.index)
 - Example app [TODO]
   ")
+
+(defcard
+  "
+## Links
+
+- [Leiningen](https://leiningen.org)
+- [Parinfer](https://shaunlebron.github.io/parinfer/)
+- [ClojureScript cheat sheet](http://cljs.info/cheatsheet/)
+- [Devcards](https://github.com/bhauman/devcards)
+- [DataScript](https://github.com/tonsky/datascript)
+- [Onyx Platform](http://www.onyxplatform.org)
+- [Applicative State Transition systems](http://wwwusers.di.uniroma1.it/~lpara/LETTURE/backus.pdf)
+(John Backus 1977 Turing Award Lecture) 
+  ")
