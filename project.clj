@@ -12,7 +12,15 @@
                  [datascript "0.16.3"]
                  [sablono "0.7.4"]
                  [cljsjs/react "15.3.1-0"]
-                 [cljsjs/react-dom "15.3.1-0"]]
+                 [cljsjs/react-dom "15.3.1-0"]
+                 ;---server
+                 [ring "1.6.3"]
+                 [ring-cors "0.1.11"]
+                 [compojure "1.6.0"]
+                 [com.taoensso/sente "1.12.0"]
+                 [http-kit "2.2.0"]
+                 ; [jetty/javax.servlet "5.1.12"]
+                 [danlentz/clj-uuid "0.1.6"]]
 
   :plugins [[lein-figwheel "0.5.14"]
             [lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]]
@@ -59,7 +67,8 @@
                                    :optimizations :advanced}}]}
 
   :figwheel {:css-dirs ["resources/public/css"]
-             :server-port 3450}
+             :server-port 3450
+             :ring-handler clarc.server.core/server-reload}
 
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.2"]
                                   [figwheel-sidecar "0.5.14"]
