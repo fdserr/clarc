@@ -5,7 +5,7 @@ Code repo for my
 
 Devcards latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/index.html](http://clarc.s3-website-ap-southeast-1.amazonaws.com/index.html)
 
-App latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/app/index.html](http://clarc.s3-website-ap-southeast-1.amazonaws.com/mini-app/index.html)
+App latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/mini-app/index.html](http://clarc.s3-website-ap-southeast-1.amazonaws.com/mini-app/index.html)
 
 ## Changelog
 

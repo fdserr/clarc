@@ -40,7 +40,7 @@ Open these files in your editor and experiment at the REPL.
   "
 ## Local DB
 
-- [DataScript in-memory database how-to](/#!/clarc.local_db.index)
+- [DataScript in-memory database](/#!/clarc.local_db.index)
 - Example app [TODO]
   ")
 
@@ -48,13 +48,13 @@ Open these files in your editor and experiment at the REPL.
   "
 ## Socket
 
-- [WebSocket server comm how-to](/#!/clarc.socket.index)
+- [WebSocket server comm](/#!/clarc.socket.index)
 - Example app [TODO]
   ")
 
 (defcard
   "
-## Links
+## Reference Links
 
 - [Leiningen](https://leiningen.org)
 - [Parinfer](https://shaunlebron.github.io/parinfer/)
@@ -63,5 +63,5 @@ Open these files in your editor and experiment at the REPL.
 - [DataScript](https://github.com/tonsky/datascript)
 - [Onyx Platform](http://www.onyxplatform.org)
 - [Applicative State Transition systems](http://wwwusers.di.uniroma1.it/~lpara/LETTURE/backus.pdf)
-(John Backus 1977 Turing Award Lecture) 
+(John Backus 1977 Turing Award Lecture)
   ")
