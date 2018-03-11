@@ -140,7 +140,6 @@ Use query API from DataScript. `pull` expressions are also available.
         persons-data (d/q query conn) ; query db for persons
         persons (map #(zipmap [:id :name] %) ; format for ui
                      persons-data)]
-
     (html [:div
            [:input
             {:value input
@@ -157,10 +156,10 @@ Use query API from DataScript. `pull` expressions are also available.
   "Add a person in local DB. Try empty input or duplicate."
   (fn [store]
     (ui-form store))
-  (db/install-card-db ; install db
+  (db/install-db ; install db
    (atom {})         ; in store
    {:db/ident {:db.unique :db.unique/identity} ; using schema
     :person/name {:db.unique :db.unique/identity}}
    [{:person/name "John"}  ; with initial data
-    {:person/name "Jim"}]))
-  ; {:inspect-data true})
+    {:person/name "Jim"}])
+  {:inspect-data true})

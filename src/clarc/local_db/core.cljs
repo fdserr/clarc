@@ -81,8 +81,8 @@
 ;        _ (println conn)
         _ (when-not conn
             (throw (js/Error. "DB not found in state")))
-        tx-res (d/transact! conn tx)]
-    (assoc-in state [:__db :last-transaction] (:tx tx-res))))
+        tx-res (d/transact! conn tx)] ;TODO: check for errors
+    (update-in state [:__db :last-transaction] inc))) ; insure watchers
 
 (defmethod transact-state-db :history
   [state tx]
