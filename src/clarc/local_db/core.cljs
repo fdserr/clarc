@@ -40,7 +40,6 @@
                 (d/create-conn))]
      (d/transact! conn (or tx []))
      (swap! store assoc-in [:__db :conn] conn)
-;     (println @store)
      store)))
 
 ;;;
@@ -53,7 +52,6 @@
 (defmethod store-db :conn
   [store]
   (let [conn (get-in @store [:__db :conn])]
-    (println conn)
     (if-not conn
       (throw (js/Error. "DB not found in store"))
       (d/db conn))))
@@ -78,7 +76,6 @@
 (defmethod transact-state-db :conn
   [state tx]
   (let [conn (get-in state [:__db :conn])
-;        _ (println conn)
         _ (when-not conn
             (throw (js/Error. "DB not found in state")))
         tx-res (d/transact! conn tx)] ;TODO: check for errors
@@ -91,5 +88,4 @@
             (throw (js/Error. "DB not found in state")))
         c (d/conn-from-datoms datoms schema)
         tx-res (d/transact! c tx)] ;TODO: check for errors
-;        _ (println tx-res)]
     (assoc-in state [:__db :datoms] (d/datoms (:db-after tx-res) :eavt))))
