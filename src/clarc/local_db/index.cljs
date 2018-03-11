@@ -162,4 +162,5 @@ Use query API from DataScript. `pull` expressions are also available.
     :person/name {:db.unique :db.unique/identity}}
    [{:person/name "John"}  ; with initial data
     {:person/name "Jim"}])
-  {:inspect-data true})
+  {:history true})
+   ; :inspect-data true})
