@@ -118,9 +118,12 @@ Use query API from DataScript. `pull` expressions are also available.
         (db/transact-state-db
           [[:db.fn/call transact-add-person person]]) ; prefer transaction fn
         (dissoc :input) ; clear form
-        (dissoc :error)) ; clear error
+        (dissoc :error-msg) ; clear error
+        (dissoc :error-data))
     (catch ExceptionInfo e
-           (assoc state :error (str (.-message e) " Data: " (ex-data e))))))
+           (-> state
+               (assoc :error-msg (.-message e))
+               (assoc :error-data (ex-data e))))))
 
 (defn ui-person
   "Person UI component"
@@ -132,7 +135,8 @@ Use query API from DataScript. `pull` expressions are also available.
   [store]
   (let [state @store
         input (or (:input state) "")
-        error (or (:error state) "")
+        error (or (:error-msg state) "")
+        error-data (or (str (:error-data state)) "")
         conn (db/store-db store)
         query '[:find ?e ?name
                 :in $
@@ -148,7 +152,9 @@ Use query API from DataScript. `pull` expressions are also available.
            [:button
             {:on-click #(dispatch! store action-add-person input)}
             "Submit"]
-           [:p {:style {:color "red"}} error]
+           [:p {:style {:color "red"}}
+            "Error: " error
+            " Data: " error-data]
            [:p "  "]
            [:ul (map ui-person persons)]])))
 
