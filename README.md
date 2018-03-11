@@ -44,6 +44,19 @@ From the main project dir, run in a terminal:
 When the dust settles down, browse to
 `http://localhost:3450/index.html`.
 
+### Pull Requests, Issues, Questions, Feature Requests
+
+GitHub issues and PRs are welcome. The authors cannot commit to address them within any delay, or at all.
+
+### License
+
+This software relies on the works of many others (thank you!).
+Their respective licenses are included with source code in the linked packages.
+
+The rest is Public Domain.
+
+[![CC0](http://i.creativecommons.org/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)
+
 ### Contact
 
-@fdserr on Twitter, GitHub, and Medium.
+@fdserr on Twitter, GitHub, Medium.
