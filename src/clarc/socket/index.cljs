@@ -4,7 +4,7 @@
    [devcards.core :as dc :include-macros true :refer [defcard deftest]]
    [sablono.core :as sab :include-macros true :refer [html]]))
 
-(defcard "# Socket: 2 ways server communication")
+(defcard "# Socket: 2 ways async server communication")
 
 (defcard
   (html [:button {:on-click #(socket/test-session)} "TEST"]))

@@ -1,12 +1,23 @@
 # Clarc
 
 Code repo for my
-[presentation](https://github.com/fdserr/clarc/blob/master/resources/public/deck.pdf):
-## ClojureScript: Back To Front.
+[presentation](https://github.com/fdserr/clarc/blob/master/resources/public/deck.pdf): __ClojureScript: Back To Front__.
 
 Devcards latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/index.html](http://clarc.s3-website-ap-southeast-1.amazonaws.com/index.html)
 
 App latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/app/index.html](http://clarc.s3-website-ap-southeast-1.amazonaws.com/app/index.html)
+
+## Changelog
+
+### 0.1.1
+
+- ADDED: local datalog DB (DataScript), see `src/clarc/local_db/*`
+- WIP: simple server with websocket communication.
+
+## Roadmap
+
+- Example app: using local db.
+- Example app: interacting with the server.
 
 ## Hacking
 
