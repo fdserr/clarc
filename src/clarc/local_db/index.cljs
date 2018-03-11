@@ -123,7 +123,7 @@ Use query API from DataScript. `pull` expressions are also available.
     (catch ExceptionInfo e
            (-> state
                (assoc :error-msg (.-message e))
-               (assoc :error-data (ex-data e))))))
+               (assoc :error-data (ex-data e)))))) ; error data might be helpful
 
 (defn ui-person
   "Person UI component"
@@ -136,7 +136,6 @@ Use query API from DataScript. `pull` expressions are also available.
   (let [state @store
         input (or (:input state) "")
         error (or (:error-msg state) "")
-        error-data (or (str (:error-data state)) "")
         conn (db/store-db store)
         query '[:find ?e ?name
                 :in $
@@ -152,9 +151,7 @@ Use query API from DataScript. `pull` expressions are also available.
            [:button
             {:on-click #(dispatch! store action-add-person input)}
             "Submit"]
-           [:p {:style {:color "red"}}
-            "Error: " error
-            " Data: " error-data]
+           [:p {:style {:color "red"}} error]
            [:p "  "]
            [:ul (map ui-person persons)]])))
 
