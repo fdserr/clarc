@@ -156,7 +156,7 @@ Use query API from DataScript. `pull` expressions are also available.
   "Add a person in local DB. Try empty input or duplicate."
   (fn [store]
     (ui-form store))
-  (db/install-db ; install db
+  (db/install-card-db ; install db
    (atom {})         ; in store
    {:db/ident {:db.unique :db.unique/identity} ; using schema
     :person/name {:db.unique :db.unique/identity}}
