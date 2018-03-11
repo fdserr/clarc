@@ -95,7 +95,7 @@ Use query API from DataScript. `pull` expressions are also available.
 
 (defn transact-add-person
   "Transaction function to add a person by name.
-   Blank or nil name is rejected, as well as duplicates.
+   Blank or nil person is rejected, as well as duplicates.
    person: a string."
   [conn person]
   (when (or (nil? person)
@@ -120,15 +120,15 @@ Use query API from DataScript. `pull` expressions are also available.
         (dissoc :input) ; clear form
         (dissoc :error)) ; clear error
     (catch ExceptionInfo e
-           (assoc state :error (.-message e)))))
+           (assoc state :error (str (.-message e) " Data: " (ex-data e))))))
 
 (defn ui-person
-  "person component"
+  "Person UI component"
   [person]
   (html [:li {:key (:id person)} (:name person)]))
 
 (defn ui-form
-  "Form component"
+  "Form UI component"
   [store]
   (let [state @store
         input (or (:input state) "")
@@ -145,10 +145,10 @@ Use query API from DataScript. `pull` expressions are also available.
             {:value input
              :on-change #(dispatch! store action-change-input
                                     (-> % .-target .-value))}]
-           [:p {:style {:color "red"}} error]
            [:button
             {:on-click #(dispatch! store action-add-person input)}
             "Submit"]
+           [:p {:style {:color "red"}} error]
            [:p "  "]
            [:ul (map ui-person persons)]])))
 
