@@ -1,6 +1,6 @@
 (defproject clarc "0.1.1-SNAPSHOT"
 ;  :description "FIXME: write this!"
-  :url "http://example.com/FIXME"
+  :url "https://github.com/fdserr/clarc"
   :license {:name "Creative Commons CC0"
             :url "https://creativecommons.org/publicdomain/zero/1.0/"}
 

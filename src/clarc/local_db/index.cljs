@@ -79,3 +79,88 @@ Use query API from DataScript. `pull` expressions are also available.
         conn (db/store-db store)
         res (d/pull conn '[::k1 ::k2] [::k1 1])]
     (is (= {::k1 1 ::k2 2} res))))
+
+;;; Example
+
+(defn dispatch!
+  "Dispatch action to store"
+  [store fun & args]
+  (apply swap! store fun args)
+  nil)
+
+(defn action-change-input
+  "Input changed"
+  [state input]
+  (assoc state :input input))
+
+(defn transact-add-person
+  "Transaction function to add a person by name.
+   Blank or nil name is rejected, as well as duplicates.
+   person: a string."
+  [conn person]
+  (when (or (nil? person)
+            (= "" person))
+    (throw (ex-info "Person name cannot be blank."
+                    {:input person})))
+  (let [found (d/q '[:find ?e ?name :in $ ?name :where [?e :person/name ?name]]
+                   conn person)]
+    (when-not (empty? found)
+      (throw (ex-info "Person name must be unique."
+                      {:input person :found found}))))
+  [(-> {:db/id -1} ; temp ID
+       (assoc :person/name person))]) ; return transaction data (vector!)
+
+(defn action-add-person
+  "Person added"
+  [state person]
+  (try
+    (-> state
+        (db/transact-state-db
+          [[:db.fn/call transact-add-person person]]) ; prefer transaction fn
+        (dissoc :input) ; clear form
+        (dissoc :error)) ; clear error
+    (catch ExceptionInfo e
+           (assoc state :error (.-message e)))))
+
+(defn ui-person
+  "person component"
+  [person]
+  (html [:li {:key (:id person)} (:name person)]))
+
+(defn ui-form
+  "Form component"
+  [store]
+  (let [state @store
+        input (or (:input state) "")
+        error (or (:error state) "")
+        conn (db/store-db store)
+        query '[:find ?e ?name
+                :in $
+                :where [?e :person/name ?name]]
+        persons-data (d/q query conn) ; query db for persons
+        persons (map #(zipmap [:id :name] %) ; format for ui
+                     persons-data)]
+
+    (html [:div
+           [:input
+            {:value input
+             :on-change #(dispatch! store action-change-input
+                                    (-> % .-target .-value))}]
+           [:p {:style {:color "red"}} error]
+           [:button
+            {:on-click #(dispatch! store action-add-person input)}
+            "Submit"]
+           [:p "  "]
+           [:ul (map ui-person persons)]])))
+
+(defcard db-persons
+  "Add a person in local DB. Try empty input or duplicate."
+  (fn [store]
+    (ui-form store))
+  (db/install-card-db ; install db
+   (atom {})         ; in store
+   {:db/ident {:db.unique :db.unique/identity} ; using schema
+    :person/name {:db.unique :db.unique/identity}}
+   [{:person/name "John"}  ; with initial data
+    {:person/name "Jim"}]))
+  ; {:inspect-data true})

@@ -90,6 +90,6 @@
         _ (when-not (and schema datoms)
             (throw (js/Error. "DB not found in state")))
         c (d/conn-from-datoms datoms schema)
-        tx-res (d/transact! c tx)]
-;        _ (println tx-res)]  ;TODO: check for errors
+        tx-res (d/transact! c tx)] ;TODO: check for errors
+;        _ (println tx-res)]
     (assoc-in state [:__db :datoms] (d/datoms (:db-after tx-res) :eavt))))
