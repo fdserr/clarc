@@ -11,9 +11,12 @@
  | [Mini App](/#!/clarc.mini_app.index) ]
 ## Reactive?
 Code: `src/clarc/intro/card1.cljs`
-")
 
-;;; basic cards
+You can tweak the code and see the results when you save,
+without the need to refresh the browser.
+
+If you changed the initial state of a card, change its name as well (or refresh).
+  ")
 
 (defcard
   minimal-card   ; optional name
@@ -62,8 +65,8 @@ Code: `src/clarc/intro/card1.cljs`
          {:style
           {:margin "8px"}}
          [:input
-          {:value (or (:value @state) "")
-           :on-change #(swap! state assoc :value (-> % .-target .-value))}]
+          {:value (or (:input @state) "")
+           :on-change #(swap! state assoc :input (-> % .-target .-value))}]
          [:button
           {:on-click #(do-something state)}
           "Submit"]]))
@@ -74,7 +77,7 @@ Code: `src/clarc/intro/card1.cljs`
 
 (defcard steps-example
   "Application state is preserved on code reload.
-   Uses a `multimethod` to switch screens (Clojure's [polymorphic function](https://clojure.org/about/runtime_polymorphism))."
+   Uses a `multimethod` to switch between screens (Clojure's [polymorphic function](https://clojure.org/about/runtime_polymorphism))."
   (fn [state]
     (ui-screen state))
   {:screen :step1}
