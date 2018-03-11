@@ -6,9 +6,9 @@
 
 (defcard
   "
-[ [Home](/#!/clarc.index)
- | [Reactive UI]((/#!/clarc.intro.card1))
- | [Basic Flux](/#!/clarc.intro.card2)
+[ [Home](#!/clarc.index)
+ | [Reactive UI]((#!/clarc.intro.card1))
+ | [Basic Flux](#!/clarc.intro.card2)
  | Mini App ]
 ## Minimal App
 Code: `src/clarc/mini_app/*`

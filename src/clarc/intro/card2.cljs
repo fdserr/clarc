@@ -6,10 +6,10 @@
 
 (defcard
   "
-[ [Home](/#!/clarc.index)
- | [Reactive UI](/#!/clarc.intro.card1)
+[ [Home](#!/clarc.index)
+ | [Reactive UI](#!/clarc.intro.card1)
  | Basic Flux
- | [Mini App](/#!/clarc.mini_app.index) ]
+ | [Mini App](#!/clarc.mini_app.index) ]
 ## Flux?
 Code: `src/clarc/intro/card1.cljs`
 

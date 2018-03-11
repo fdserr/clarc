@@ -5,10 +5,10 @@
 
 (defcard
   "
-[ [Home](/#!/clarc.index)
+[ [Home](#!/clarc.index)
  | Reactive UI
- | [Basic Flux](/#!/clarc.intro.card2)
- | [Mini App](/#!/clarc.mini_app.index) ]
+ | [Basic Flux](#!/clarc.intro.card2)
+ | [Mini App](#!/clarc.mini_app.index) ]
 ## Reactive?
 Code: `src/clarc/intro/card1.cljs`
 

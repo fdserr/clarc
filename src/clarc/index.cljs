@@ -30,9 +30,9 @@ Open these files in your editor and experiment at the REPL.
   "
 ## Playing with Devcards
 
-- [Reactive UI](/#!/clarc.intro.card1) code in `src/clarc/intro/card1.cljs`
-- [Basic Flux](/#!/clarc.intro.card2): code in `src/clarc/intro/card2.cljs`
-- [Minimal application](/#!/clarc.mini_app.index): code in `src/clarc/mini_app/`
+- [Reactive UI](#!/clarc.intro.card1) code in `src/clarc/intro/card1.cljs`
+- [Basic Flux](#!/clarc.intro.card2): code in `src/clarc/intro/card2.cljs`
+- [Minimal application](#!/clarc.mini_app.index): code in `src/clarc/mini_app/`
 
   ")
 
@@ -40,7 +40,7 @@ Open these files in your editor and experiment at the REPL.
   "
 ## Local DB
 
-- [DataScript in-memory database](/#!/clarc.local_db.index)
+- [DataScript in-memory database](#!/clarc.local_db.index)
 - Example app [TODO]
   ")
 
@@ -48,7 +48,7 @@ Open these files in your editor and experiment at the REPL.
   "
 ## Socket
 
-- [WebSocket server comm](/#!/clarc.socket.index)
+- [WebSocket server comm](#!/clarc.socket.index)
 - Example app [TODO]
   ")
 
