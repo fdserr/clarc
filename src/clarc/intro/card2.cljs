@@ -5,10 +5,24 @@
    [sablono.core :as sab :include-macros true :refer [html]]))
 
 (defcard
-  "## Flux?")
+  "
+[ [Home](/#!/clarc.index)
+ | [Reactive UI](/#!/clarc.intro.card1)
+ | Basic Flux
+ | [Mini App](/#!/clarc.mini_app.index) ]
+## Flux?
+Code: `src/clarc/intro/card1.cljs`
+")
 
 ;;;
 
+(defn dispatch!
+  "Dispatch action to store"
+  [store fun & args]
+  (apply swap! store fun args)
+  nil)
+
+;;; simple centralised error management:
 ; (defn dispatch!
 ;   [store fun & args]
 ;   (try
@@ -17,12 +31,6 @@
 ;       (js/alert (.-message e))
 ;       (throw e)))
 ;   nil)
-
-(defn dispatch!
-  "Dispatch action to store"
-  [store fun & args]
-  (apply swap! store fun args)
-  nil)
 
 ;;;
 

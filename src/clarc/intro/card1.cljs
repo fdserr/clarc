@@ -4,7 +4,14 @@
    [sablono.core :as sab :include-macros true :refer [html]]))
 
 (defcard
-  "## Reactive?")
+  "
+[ [Home](/#!/clarc.index)
+ | Reactive UI
+ | [Basic Flux](/#!/clarc.intro.card2)
+ | [Mini App](/#!/clarc.mini_app.index) ]
+## Reactive?
+Code: `src/clarc/intro/card1.cljs`
+")
 
 ;;; basic cards
 
@@ -61,17 +68,13 @@
           {:on-click #(do-something state)}
           "Submit"]]))
 
-
-;         [:p "  "]]))
-
 ;;; multiple steps form
-
-;TODO use 'if' instead of multimeth
 
 (declare ui-screen)
 
 (defcard steps-example
-  "Application state preserved on code reload."
+  "Application state is preserved on code reload.
+   Uses a `multimethod` to switch screens (Clojure's [polymorphic function](https://clojure.org/about/runtime_polymorphism))."
   (fn [state]
     (ui-screen state))
   {:screen :step1}

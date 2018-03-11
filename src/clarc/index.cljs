@@ -24,7 +24,6 @@ Open these files in your editor and experiment at the REPL.
 - `src/clarc/intro/functions.cljs`
 - `src/clarc/intro/maps.cljs`
 - `src/clarc/intro/mutable_state.cljs`
-
   ")
 
 (defcard
@@ -34,21 +33,21 @@ Open these files in your editor and experiment at the REPL.
 - [Reactive UI](/#!/clarc.intro.card1) code in `src/clarc/intro/card1.cljs`
 - [Basic Flux](/#!/clarc.intro.card2): code in `src/clarc/intro/card2.cljs`
 - [Minimal application](/#!/clarc.mini_app.index): code in `src/clarc/mini_app/`
-To run the app outside devcards,
-evaluate `(start-autobuild devcards dev)` in the REPL, and browse to
-[/app/index.html](/app/index.html).
+
   ")
 
 (defcard
   "
 ## Local DB
 
-- [Setup](/#!/clarc.local_db.index): plug a DataScript database into the local store.
+- [DataScript in-memory database how-to](/#!/clarc.local_db.index)
+- Example app [TODO]
   ")
 
 (defcard
   "
 ## Socket
 
-- [Setup](/#!/clarc.socket.index): plug a socket into the local store to communicate with the server.
+- [WebSocket server comm how-to](/#!/clarc.socket.index)
+- Example app [TODO]
   ")
