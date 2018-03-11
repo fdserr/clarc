@@ -19,6 +19,16 @@ used to hold the current state.
  ")
 
 (defcard
+  "## DataScript
+DataScript is a small footprint, in-memory DataLog DB written by Nikita Prokopov
+(_aka._ \"Tonsky\"). We use our own, slightly different API to create,
+obtain, and transact  against a db instance hosted in our store.
+
+The rest is plain DataScript,
+as [documented here](https://github.com/tonsky/datascript).
+  ")
+
+(defcard
   "## Setup
 There are two ways to setup a DataScript db in local `store`:
 
@@ -33,7 +43,7 @@ Because they'll mostly happen within a state transition (a function of state
 that returns a new state), transactions are made against the value of the store,
 not the store itself.
 Also, transactions return a new state (not a transaction result).
-Other than that they are similar to DataScript/Datomic transactions.
+Other than that they are similar to DataScript transactions.
 ```
 (transact-state-db @store [<tx-data>])
 ```
