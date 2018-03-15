@@ -1,50 +1,36 @@
 (ns clarc.socket.core
-  (:require [cljs.core.async :as async :refer [<! >! put! chan]]
-            [taoensso.sente :as sente])
-  (:require-macros [cljs.core.async.macros :refer (go go-loop)]))
+  (:require
+   [clarc.socket.impl :as impl]
+   [datascript.core :as d]))
 
-;; SENTE SOCKET
+(defn install-card-socket
+  "Install a mock server socket in card store.
+   Messages sent are just printed to console.
+   Obviously not for production use."
+  [store]
+  (swap! store
+         #(-> %
+              (assoc-in [:__socket :type] :mock)
+              (assoc-in [:__socket :sent] {})))
+  store)
 
-;; It will survive to Figwheel reload.
-(defonce sente-socket
-  (sente/make-channel-socket! "/chsk"
-                              {:type :auto
-                               :chsk-url-fn #(str "ws://localhost:3001" %)})) ;; Use the server url
+(defmulti send
+  "Send a message to the server via the socket installed in store.
+   msg: a map with a :msg-type key." ;TODO spec msg
+  (fn [state _] (get-in state [:__socket :type]))
+  :default :sente)
 
-(let [{:keys [chsk ch-recv send-fn state]}
-      sente-socket]
-  (def chsk       chsk)
-  (def ch-chsk    ch-recv) ; ChannelSocket's receive channel
-  (def chsk-send! send-fn) ; ChannelSocket's send API fn
-  (def chsk-state state))  ; Watchable, read-only atom
+(defn envelope
+  "Wrap msg in envelope."
+  [state msg]
+  (let [req-id (d/squuid)
+        msg (-> msg
+                (assoc :user (:user state))
+                (assoc :req-id req-id))]))
 
-
-(defmulti handle-event
-  "Handle events based on the event Id."
-  (fn [[ev-id ev-arg]] ev-id)
-  :default :default)
-
-;; Print answer
-(defmethod handle-event :test/reply
-  [[_ msg]]
-  (println "HANDLE MSG" msg))
-
-;; Ignoring unknown events.
-(defmethod handle-event :default
-  [event]
-  (println "UNKNOW EVENT" event))
-
-(defn test-session
-  "Ping the server."
-  []
-  (chsk-send! [:session/status]))
-
-(defn event-loop
-  "Handle inbound events."
-  []
-  (go (loop [[op arg] (:event (<! ch-chsk))]
-        (println "-" op)
-        (case op
-          :chsk/recv (handle-event arg)
-          (test-session))
-        (recur (:event (<! ch-chsk))))))
+(defmethod send :mock
+  [state msg]
+  (println "SEND: " msg)
+  (let [msg (envelope state msg)
+        req-id (:req-id msg)]
+    (update-in state [:__socket :sent] assoc req-id)))

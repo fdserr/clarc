@@ -1,12 +1,12 @@
-# Clarc
-
-Code repo for my
-[presentation](https://github.com/fdserr/clarc/blob/master/resources/public/deck.pdf): __ClojureScript: Back To Front__.
+# clarc
 
 ```
 “I did meet John McCarthy of LISP fame in 1977.”
 - Brendan Eich - of JavaScript fame.
 ```
+
+Code repo for my
+[presentation](https://github.com/fdserr/clarc/blob/master/resources/public/deck.pdf): __Back To Front with Clojure__.
 
 Devcards latest build is at: [http://clarc.s3-website-ap-southeast-1.amazonaws.com/](http://clarc.s3-website-ap-southeast-1.amazonaws.com/)
 
