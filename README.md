@@ -1,9 +1,7 @@
 # clarc
 
-```
-“I did meet John McCarthy of LISP fame in 1977.”
-- Brendan Eich - of JavaScript fame.
-```
+> “I did meet John McCarthy of LISP fame in 1977.”
+-- <cite>Brendan Eich</cite>, of JavaScript fame.
 
 Code repo for my
 [presentation](https://github.com/fdserr/clarc/blob/master/resources/public/deck.pdf): __Back To Front with Clojure__.

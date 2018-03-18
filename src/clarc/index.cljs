@@ -15,6 +15,14 @@
   (when-not node
     (dc/start-devcard-ui!)))
 
+(defcard
+  "
+> \"There is a lot to learn when you are first learning ClojureScript, I recommend that you bite off very small pieces at first. Smaller bites than you would take when learning other languages like JavaScript and Ruby.
+>
+> Please don't invest too much time trying to set up a sweet development environment, there is a diverse set of tools that is constantly in flux and it's very difficult to suss out which ones will actually help you. If you spend a lot of time evaluating all these options it can become very frustrating. If you wait a while, and use simple tools you will have much more fun actually using the language itself.\"
+
+-- <cite>Bruce Hauman, [Figwheel](https://github.com/bhauman/lein-figwheel#learning-clojurescript)</cite>
+  ")
 
 (defcard
   "
