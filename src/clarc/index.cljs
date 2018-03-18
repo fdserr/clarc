@@ -6,6 +6,7 @@
    clarc.mini-app.index
    clarc.local-db.index
    clarc.socket.index
+   clarc.server.index
    clarc.e2e.index
    [devcards.core :as dc :include-macros true :refer [defcard deftest]]
    [sablono.core :as sab :include-macros true :refer [html]]))
@@ -50,6 +51,14 @@ Open these files in your editor and experiment at the REPL.
 ## Socket
 
 - [WebSocket server comm](#!/clarc.socket.index)
+- Example app [TODO]
+  ")
+
+(defcard
+  "
+## Server
+
+- [Web Server](#!/clarc.server.index)
 - Example app [TODO]
   ")
 
