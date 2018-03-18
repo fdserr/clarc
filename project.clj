@@ -30,6 +30,8 @@
 
   :source-paths ["src"]
 
+  :main clarc.server.core
+
   :cljsbuild {:builds [{:id "devcards"
                         ;; Development using figwheel + devcards
                         :source-paths ["dev" "src"]
