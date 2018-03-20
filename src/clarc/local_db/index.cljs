@@ -1,8 +1,10 @@
 (ns clarc.local-db.index
   (:require
    [clarc.local-db.core :as db]
-   [cljs.test :refer [is]]
+   [cljs.test :refer [is testing]]
    [datascript.core :as d]
+   [clojure.spec.alpha :as s]
+   [clojure.set :refer [intersection difference]]
    [devcards.core :as dc :include-macros true :refer [defcard deftest]]
    [sablono.core :as sab :include-macros true :refer [html]]))
 
@@ -167,3 +169,205 @@ Use query API from DataScript. `pull` expressions are also available.
     {:person/name "Jim"}])
   {:history true})
    ; :inspect-data true})
+
+;;; Updating an existing entity
+
+(defn fetch-person
+  [store e-mail]
+  (let [conn (db/store-db store)]
+    (d/pull conn '[*] [:person/e-mail e-mail])))
+
+(defn fetch-persons
+  [store]
+  (let [conn (db/store-db store)]
+    (d/pull-many conn '[*] [[:person/e-mail "jdoe@me.com"]
+                            [:person/e-mail "jram@me.com"]
+                            [:person/e-mail "mjones@me.com"]])))
+
+(defn person-entity->form
+  [person]
+  (into {} (map (fn [[k v]] [k (str v)]) person)))
+
+(defn fetch-form-data
+  [store]
+  (:form @store))
+
+(defn action-edit-person
+  [state store e-mail]
+  (let [person (fetch-person store e-mail)]
+    (assoc state :form (person-entity->form person))))
+
+(defn action-change-form-input
+  [state key value]
+  (assoc-in state [:form key] value))
+
+(defn prune-entity
+  [e]
+  (into {} (remove (fn [[k v]] (nil? v))) e))
+
+; (s/def :db/id int?)
+(s/def :person/first-name string?)
+(s/def :person/last-name string?)
+(s/def :person/e-mail string?)
+(s/def :person/age int?)
+(s/def :person/entity
+  (s/keys :req [:db/id :person/last-name :person/e-mail]
+          :opt [:person/first-name :person/age]))
+
+(defn transact-update-person
+  [conn person]
+  (let [new (prune-entity person)
+        new (if-not (s/valid? :person/entity new)
+              (throw (ex-info "Invalid entity: Person."
+                              (s/explain-str :person/entity new)))
+              new)
+        old (d/touch (d/entity conn (:db/id person)))
+        rm-keys (difference (set (keys person)) (set (keys new)))
+        rm-keyvals (map (fn [k] [k (k old)]) rm-keys)
+        retract-datoms (map (fn [[attr val]]
+                              [:db/retract (:db/id person) attr val])
+                            rm-keyvals)]
+    (into [new] retract-datoms)))
+
+(defn nil-blanks
+  [hmap]
+  (into {}
+        (map (fn [[k v]] (if (= "" v) [k nil] [k v]))
+             hmap)))
+
+(defn person-form->entity
+  [{:keys [db/id
+           person/first-name
+           person/last-name
+           person/e-mail
+           person/age] :as data}]
+  (-> data
+      (assoc :db/id (let [i (js/parseInt id)]
+                      (if (js/isNaN i) nil i)))
+      (assoc :person/age (let [i (js/parseInt age)]
+                           (if (js/isNaN i) nil i)))
+      (nil-blanks)))
+
+(defn action-update-person
+  [state]
+  (let [e (person-form->entity (:form state))
+        r (try
+            (db/transact-state-db
+             state [[:db.fn/call transact-update-person e]])
+            (catch ExceptionInfo e
+              (.error js/console (str (.-message e) "\n" (.-data e)))
+              (throw e)))]
+    (dissoc r :form)))
+
+(defn ui-form-input
+  [store label key value]
+  (html
+    [:div
+     [:label (str label ": ")]
+     [:input {:value value
+              :on-change #(dispatch! store action-change-form-input
+                                     key
+                                     (-> % (.-target) (.-value)))}]]))
+
+(defn ui-form-person
+  [store]
+  (let [{:keys [person/first-name
+                person/last-name
+                person/e-mail
+                person/age]} (fetch-form-data store)]
+    (html
+     [:div
+      (ui-form-input store "First Name" :person/first-name first-name)
+      (ui-form-input store "Last Name*" :person/last-name last-name)
+      (ui-form-input store "E-mail*" :person/e-mail e-mail)
+      (ui-form-input store "Age" :person/age age)
+      [:div
+       [:button
+        {:on-click #(dispatch! store action-update-person)}
+        "Update"]]])))
+
+(defn ui-person-item
+  [store {:keys [person/first-name
+                 person/last-name
+                 person/e-mail
+                 person/age]}]
+  (html
+   [:li
+    {:key e-mail}
+    (str first-name " " last-name ", " e-mail ", " age)
+    [:button
+     {:on-click #(dispatch! store action-edit-person store e-mail)}
+     "Edit"]]))
+
+(defn ui-list-persons
+  [store]
+  (let [persons (fetch-persons store)]
+    (html
+     [:div "Persons:"
+      [:ul
+       (map (partial ui-person-item store) persons)]])))
+
+(defn setup-test-store
+  []
+  (-> {}
+      (atom)
+      (db/install-card-db
+        {:db/ident {:db.unique :db.unique/identity}
+         :person/e-mail {:db.unique :db.unique/identity}}
+        [#:person{:first-name "John" :last-name "Doe" :e-mail "jdoe@me.com" :age 40}
+         #:person{:first-name "Joey" :last-name "Ramones" :e-mail "jram@me.com" :age 50}
+         #:person{:first-name "Mick" :last-name "Jones" :e-mail "mjones@me.com" :age 60}])))
+
+(defcard update-entity
+  "### Updating an existing entity"
+  (fn [store]
+    (html
+     [:div
+      (ui-form-person store)
+      [:hr]
+      (ui-list-persons store)]))
+  (setup-test-store)
+  {:inspect-data true})
+
+(deftest test-update-entity
+
+  (testing "Entity update: happy flow"
+    (let [store (setup-test-store)]
+      (dispatch! store action-edit-person store "jram@me.com")
+      (dispatch! store action-change-form-input :person/first-name "Joe")
+      (dispatch! store action-change-form-input :person/last-name "Ramonez")
+      (dispatch! store action-change-form-input :person/age "70")
+      (dispatch! store action-update-person)
+      (let [res (d/pull (db/store-db store)
+                        '[*] [:person/e-mail "jram@me.com"])]
+        (is (= {:person/age 70
+                :person/e-mail "jram@me.com"
+                :person/first-name "Joe"
+                :person/last-name "Ramonez"}
+               (dissoc res :db/id))
+            "Non-key attributes should be updated."))))
+
+  (testing "Entity update: conform to spec"
+    (let [store (setup-test-store)]
+      (dispatch! store action-edit-person store "jram@me.com")
+      (dispatch! store action-change-form-input :person/first-name "Joe")
+      (dispatch! store action-change-form-input :person/last-name "")
+      (dispatch! store action-change-form-input :person/e-mail "")
+      (dispatch! store action-change-form-input :person/age "")
+      (is (thrown-with-msg? ExceptionInfo #"Invalid entity: Person."
+            (dispatch! store action-update-person))
+          "Non-conforming entity should be rejected.")))
+
+  (testing "Entity update: blank non-key fields"
+    (let [store (setup-test-store)]
+      (dispatch! store action-edit-person store "jram@me.com")
+      (dispatch! store action-change-form-input :person/first-name "")
+      (dispatch! store action-change-form-input :person/last-name "Ramonez")
+      (dispatch! store action-change-form-input :person/age "")
+      (dispatch! store action-update-person)
+      (let [res (d/pull (db/store-db store)
+                        '[*] [:person/e-mail "jram@me.com"])]
+        (is (= {:person/e-mail "jram@me.com"
+                :person/last-name "Ramonez"}
+               (dissoc res :db/id))
+            "Blank non-key attributes should be retracted.")))))
