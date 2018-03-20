@@ -172,6 +172,54 @@ Use query API from DataScript. `pull` expressions are also available.
 
 ;;; Updating an existing entity
 
+(defcard
+  "
+## Updating entities
+
+What we're trying to solve:
+
+- we want an idiomatic way to apply model constraints (mandatory value, type,
+format, validity rules, ...)
+
+- when we update an existing entity, we need to take into account that some
+values may be reset to nothing (nil, NULL, \"\"); Datalog has no concept of NULL
+so transaction should _retract_ these attributes. Retraction datoms need the old value.
+
+Data flow for a typical user interaction:
+
+1. entity data is fecthed from db
+2. entity data is tramsformed into form data (strings)
+3. form data items are changed by the user, wrong changes should be highlited for the user to correct
+4. form data is submitted, if wrong the reason should be highlited for the user
+5. form data is transformed into entity data (typed values or nils, foreign keys resolution, ...), this should succeed because of (4)
+6. entity data is checked against attributes constraints, if wrong it should be rejected
+7. entity data is checked against relationships constraints (existence, components, ...), if wrong it should be rejected
+8. entity data is transformed into an entity transaction
+9. the transaction is upgraded to impact relationships (cascade delete, link removals, ...)
+10. the transaction is applied to the db
+  ")
+
+(defcard
+  "
+### Entities with no relationship
+
+We use `clojure.spec` to declare attribute constraints. Basically, if you can write a predicate, you can write specs.
+Read the [spec Guide](https://clojure.org/guides/spec), only up to section \"Using spec for validation\" for now.
+
+We implement the complete data flow using simple functions.
+There is room for enhancements and optimisations, the point is to get the flow right and clear.
+
+In this example, we skip steps (7) and (9). A generic solution to manage all kinds of relationships
+has yet to be invented. Transactions just don't compose easily. The best fit to date is still to write specific procedures
+for the problem at hand (SQL has stored procedures for that purpose). We'll propose some patterns in a later section.
+
+Inserting a new entity is quite trivial in Datalog, so we focus on updating existing ones.
+Most of the core flow is reusable for inserts, keep specific, explicit UIs and actions.
+
+The form intentionally has no validation, to be able to transact any values.
+Open the JS console to check for transaction errors (some are already printed due to the tests).
+  ")
+
 (defn fetch-person
   [store e-mail]
   (let [conn (db/store-db store)]
@@ -185,6 +233,7 @@ Use query API from DataScript. `pull` expressions are also available.
                             [:person/e-mail "mjones@me.com"]])))
 
 (defn person-entity->form
+  "Note: we keep :db/id as string."
   [person]
   (into {} (map (fn [[k v]] [k (str v)]) person)))
 
@@ -202,34 +251,42 @@ Use query API from DataScript. `pull` expressions are also available.
   (assoc-in state [:form key] value))
 
 (defn prune-entity
+  "Remove nil attributes."
   [e]
   (into {} (remove (fn [[k v]] (nil? v))) e))
 
-; (s/def :db/id int?)
+(defn transact-upsert
+  "Insert or update an entity (map) conforming to the given spec."
+  [conn entity spec]
+  (let [new (prune-entity entity) ;remove nil attrs
+        new (if-not (s/valid? spec new) ;conform to spec
+              (throw (ex-info (str "Invalid entity " spec)
+                              (s/explain-data spec new)))
+              new)]
+    (if-let [old (d/touch (d/entity conn (:db/id entity)))] ;if updating
+      (let [removed-keys (difference (set (keys entity)) (set (keys new)))
+            removed-keyvals (map (fn [k] [k (k old)]) removed-keys)
+            retract-datoms (map (fn [[attr val]] ;build retracts
+                                  [:db/retract (:db/id entity) attr val])
+                                removed-keyvals)]
+        (into [new] retract-datoms)) ;tr with retracts
+      [new]))) ;tr
+
+; Person spec
 (s/def :person/first-name string?)
 (s/def :person/last-name string?)
 (s/def :person/e-mail string?)
-(s/def :person/age int?)
+(s/def :person/age (s/and int? #(< % 130) #(> % 0)))
 (s/def :person/entity
   (s/keys :req [:db/id :person/last-name :person/e-mail]
           :opt [:person/first-name :person/age]))
 
 (defn transact-update-person
   [conn person]
-  (let [new (prune-entity person)
-        new (if-not (s/valid? :person/entity new)
-              (throw (ex-info "Invalid entity: Person."
-                              (s/explain-str :person/entity new)))
-              new)
-        old (d/touch (d/entity conn (:db/id person)))
-        rm-keys (difference (set (keys person)) (set (keys new)))
-        rm-keyvals (map (fn [k] [k (k old)]) rm-keys)
-        retract-datoms (map (fn [[attr val]]
-                              [:db/retract (:db/id person) attr val])
-                            rm-keyvals)]
-    (into [new] retract-datoms)))
+  (transact-upsert conn person :person/entity))
 
 (defn nil-blanks
+  "Convert empty string values in hmap to nil."
   [hmap]
   (into {}
         (map (fn [[k v]] (if (= "" v) [k nil] [k v]))
@@ -242,11 +299,12 @@ Use query API from DataScript. `pull` expressions are also available.
            person/e-mail
            person/age] :as data}]
   (-> data
+      ;convert attrs to relevant types
       (assoc :db/id (let [i (js/parseInt id)]
                       (if (js/isNaN i) nil i)))
       (assoc :person/age (let [i (js/parseInt age)]
                            (if (js/isNaN i) nil i)))
-      (nil-blanks)))
+      (nil-blanks))) ;IMPORTANT!
 
 (defn action-update-person
   [state]
@@ -256,8 +314,8 @@ Use query API from DataScript. `pull` expressions are also available.
              state [[:db.fn/call transact-update-person e]])
             (catch ExceptionInfo e
               (.error js/console (str (.-message e) "\n" (.-data e)))
-              (throw e)))]
-    (dissoc r :form)))
+              (throw e)))] ;in real app: set error in state to show in UI
+    (dissoc r :form))) ;clear form and set other stuff (screen, op status, ...)
 
 (defn ui-form-input
   [store label key value]
@@ -318,16 +376,16 @@ Use query API from DataScript. `pull` expressions are also available.
          #:person{:first-name "Joey" :last-name "Ramones" :e-mail "jram@me.com" :age 50}
          #:person{:first-name "Mick" :last-name "Jones" :e-mail "mjones@me.com" :age 60}])))
 
-(defcard update-entity
-  "### Updating an existing entity"
+(defcard card-update-entity
+  "Open th JS console to check for transaction errors."
   (fn [store]
     (html
      [:div
       (ui-form-person store)
       [:hr]
       (ui-list-persons store)]))
-  (setup-test-store)
-  {:inspect-data true})
+  (setup-test-store))
+  ; {:inspect-data true})
 
 (deftest test-update-entity
 
@@ -336,16 +394,18 @@ Use query API from DataScript. `pull` expressions are also available.
       (dispatch! store action-edit-person store "jram@me.com")
       (dispatch! store action-change-form-input :person/first-name "Joe")
       (dispatch! store action-change-form-input :person/last-name "Ramonez")
-      (dispatch! store action-change-form-input :person/age "70")
+      (dispatch! store action-change-form-input :person/e-mail "jram@eeleven.com")
+      (dispatch! store action-change-form-input :person/age "100")
       (dispatch! store action-update-person)
-      (let [res (d/pull (db/store-db store)
-                        '[*] [:person/e-mail "jram@me.com"])]
-        (is (= {:person/age 70
-                :person/e-mail "jram@me.com"
-                :person/first-name "Joe"
-                :person/last-name "Ramonez"}
-               (dissoc res :db/id))
-            "Non-key attributes should be updated."))))
+      (let [result (d/pull (db/store-db store)
+                           '[*] [:person/e-mail "jram@eeleven.com"])]
+        (is (= result
+               {:db/id 2
+                :person/age 100
+                :person/e-mail "jram@eeleven.com",
+                :person/first-name "Joe",
+                :person/last-name "Ramonez"})
+            "All attributes should be updated."))))
 
   (testing "Entity update: conform to spec"
     (let [store (setup-test-store)]
@@ -354,7 +414,7 @@ Use query API from DataScript. `pull` expressions are also available.
       (dispatch! store action-change-form-input :person/last-name "")
       (dispatch! store action-change-form-input :person/e-mail "")
       (dispatch! store action-change-form-input :person/age "")
-      (is (thrown-with-msg? ExceptionInfo #"Invalid entity: Person."
+      (is (thrown-with-msg? ExceptionInfo #"Invalid entity :person/entity"
             (dispatch! store action-update-person))
           "Non-conforming entity should be rejected.")))
 
@@ -365,9 +425,10 @@ Use query API from DataScript. `pull` expressions are also available.
       (dispatch! store action-change-form-input :person/last-name "Ramonez")
       (dispatch! store action-change-form-input :person/age "")
       (dispatch! store action-update-person)
-      (let [res (d/pull (db/store-db store)
-                        '[*] [:person/e-mail "jram@me.com"])]
-        (is (= {:person/e-mail "jram@me.com"
-                :person/last-name "Ramonez"}
-               (dissoc res :db/id))
+      (let [result (d/pull (db/store-db store)
+                           '[*] [:person/e-mail "jram@me.com"])]
+        (is (= result
+               {:db/id 2
+                :person/e-mail "jram@me.com"
+                :person/last-name "Ramonez"})
             "Blank non-key attributes should be retracted.")))))
